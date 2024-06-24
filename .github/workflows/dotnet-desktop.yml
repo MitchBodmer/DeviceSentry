@@ -1,0 +1,40 @@
+name: .NET Core Desktop
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      Project_Name: ./DeviceSentry/DeviceSentry.csproj
+      Publish_Dir: $env:RUNNER_TEMP/Publish
+      Configuration: Release
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore
+      run: dotnet restore $Project_Name
+      
+    - name: Build
+      run: dotnet build $Project_Name
+      
+    - name: Publish
+      run: dotnet publish $env:Project_Name /p:DebugType=None /p:DebugSymbols=false -c $env:Configuration -o $env:Publish_Dir 
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Executable
+        path: ${{ env.Publish_Dir }}
