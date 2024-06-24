@@ -10,7 +10,7 @@ jobs:
 
     env:
       Project_Name: ./DeviceSentry/DeviceSentry.csproj
-      Publish_Dir: $env:RUNNER_TEMP/Publish
+      Publish_Dir: ${{ runner.temp }}/Publish
       Configuration: Release
 
     steps:
