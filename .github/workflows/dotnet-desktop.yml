@@ -25,10 +25,10 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore
-      run: dotnet restore $Project_Name
+      run: dotnet restore $env:Project_Name
       
     - name: Build
-      run: dotnet build $Project_Name
+      run: dotnet build $env:Project_Name
       
     - name: Publish
       run: dotnet publish $env:Project_Name /p:DebugType=None /p:DebugSymbols=false -c $env:Configuration -o $env:Publish_Dir 
